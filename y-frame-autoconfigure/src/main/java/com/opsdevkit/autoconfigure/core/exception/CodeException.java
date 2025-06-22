@@ -16,6 +16,7 @@
 
 package com.opsdevkit.autoconfigure.core.exception;
 
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import lombok.Getter;
 
@@ -43,11 +44,11 @@ public class CodeException extends RuntimeException {
         this(null, null);
     }
 
-    protected CodeException(@Nullable Integer code) {
+    protected CodeException(@Nonnull Integer code) {
         this(code, null);
     }
 
-    protected CodeException(@Nullable Integer code, @Nullable String msg) {
+    protected CodeException(@Nonnull Integer code, @Nullable String msg) {
         super(msg == null ? "" : msg);
         this.code = code == null ? DEFAULT_ERROR_CODE : code;
     }
