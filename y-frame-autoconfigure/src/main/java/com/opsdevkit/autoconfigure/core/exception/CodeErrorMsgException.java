@@ -29,10 +29,11 @@ import jakarta.annotation.Nonnull;
 public class CodeErrorMsgException extends CodeException {
 
     // 静态变量，用于存储错误消息映射对象
-    private static ErrorMsg errorMsg;
+    private static ErrorMsg errorMsg = code -> "-";
 
     /**
      * 设置错误消息映射对象
+     *
      * @param errorMsg 错误消息映射对象
      */
     public static void setErrorMsg(ErrorMsg errorMsg) {
@@ -41,6 +42,7 @@ public class CodeErrorMsgException extends CodeException {
 
     /**
      * 受保护的构造函数，用于创建 CodeErrorMsgException 实例
+     *
      * @param code 异常代码，不能为空
      */
     protected CodeErrorMsgException(@Nonnull Integer code) {
@@ -54,6 +56,7 @@ public class CodeErrorMsgException extends CodeException {
     public static interface ErrorMsg {
         /**
          * 根据异常代码获取对应的错误消息
+         *
          * @param code 异常代码
          * @return 错误消息
          */
