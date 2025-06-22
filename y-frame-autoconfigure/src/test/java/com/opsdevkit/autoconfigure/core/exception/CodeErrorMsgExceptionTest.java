@@ -8,10 +8,11 @@ class CodeErrorMsgExceptionTest {
 
     private static final Integer TEST_CODE = 1001;
     private static final String TEST_MSG = "Test error message";
+    private static final Throwable TEST_CAUSE = new RuntimeException("Test cause");
 
     @BeforeEach
     void setUp() {
-        // 设置ErrorMsg实现
+        // 设置默认ErrorMsg实现
         CodeErrorMsgException.setErrorMsg(code -> TEST_MSG);
     }
 
@@ -23,6 +24,21 @@ class CodeErrorMsgExceptionTest {
     }
 
     @Test
+    void testConstructorWithCodeAndMsg() {
+        CodeErrorMsgException exception = new CodeErrorMsgException(TEST_CODE, "Custom message");
+        assertEquals(TEST_CODE, exception.getCode());
+        assertEquals("Custom message", exception.getMessage());
+    }
+
+    @Test
+    void testConstructorWithCodeAndMsgAndCause() {
+        CodeErrorMsgException exception = new CodeErrorMsgException(TEST_CODE, "Custom message", TEST_CAUSE);
+        assertEquals(TEST_CODE, exception.getCode());
+        assertEquals("Custom message", exception.getMessage());
+        assertEquals(TEST_CAUSE, exception.getCause());
+    }
+
+    @Test
     void testErrorMsgInterface() {
         // 测试自定义ErrorMsg实现
         String customMsg = "Custom message";
@@ -30,6 +46,14 @@ class CodeErrorMsgExceptionTest {
         
         CodeErrorMsgException exception = new CodeErrorMsgException(TEST_CODE);
         assertEquals(customMsg, exception.getMessage());
+    }
+
+    @Test
+    void testDefaultErrorMsg() {
+        // 重置为默认实现
+        CodeErrorMsgException.setErrorMsg(code -> "-");
+        CodeErrorMsgException exception = new CodeErrorMsgException(TEST_CODE);
+        assertEquals("-", exception.getMessage());
     }
 
     @Test

@@ -17,6 +17,7 @@
 package com.opsdevkit.autoconfigure.core.exception;
 
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 
 /**
  * CodeErrorMsgException
@@ -25,7 +26,6 @@ import jakarta.annotation.Nonnull;
  * @author liyan
  * @since 2025/6/22 13:03
  */
-// 定义一个继承自 CodeException 的异常类 CodeErrorMsgException
 public class CodeErrorMsgException extends CodeException {
 
     // 静态变量，用于存储错误消息映射对象
@@ -51,9 +51,40 @@ public class CodeErrorMsgException extends CodeException {
     }
 
     /**
+     * 受保护的构造函数，用于创建 CodeErrorMsgException 实例，接收异常代码和错误消息。
+     *
+     * @param code 异常代码，不能为空
+     * @param msg  错误消息，可以为空
+     */
+    protected CodeErrorMsgException(@Nonnull Integer code, @Nullable String msg) {
+        super(code, msg);
+    }
+
+    /**
+     * 受保护的构造函数，用于创建 CodeErrorMsgException 实例，接收异常代码和引发该异常的原因。
+     *
+     * @param code  异常代码，不能为空
+     * @param cause 引发该异常的原因
+     */
+    protected CodeErrorMsgException(@Nonnull Integer code, Throwable cause) {
+        super(code, errorMsg.getErrorMsg(code), cause);
+    }
+
+    /**
+     * 受保护的构造函数，用于创建 CodeErrorMsgException 实例，接收异常代码、错误消息和引发该异常的原因。
+     *
+     * @param code  异常代码，可以为空
+     * @param msg   错误消息，可以为空
+     * @param cause 引发该异常的原因
+     */
+    protected CodeErrorMsgException(@Nullable Integer code, @Nullable String msg, Throwable cause) {
+        super(code, msg, cause);
+    }
+
+    /**
      * 定义一个静态接口 ErrorMsg，用于获取异常代码对应的错误消息
      */
-    public static interface ErrorMsg {
+    public interface ErrorMsg {
         /**
          * 根据异常代码获取对应的错误消息
          *
